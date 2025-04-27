@@ -175,7 +175,8 @@ MainControlUnit_inst: MainControlUnit port map(opcode=>opcode, RegDst=>RegDst, R
 ExecutionUnit_inst: ExecutionUnit port map(PCPlus1=>PCPlus1, rd1=>rd1, rd2=>rd2, ext_imm=>ext_imm, func=>func, shamt=>shamt, ALUSrc=>ALUSrc, ALUOp=>ALUOp, branch_target_address=>branchTargetAddress, ALURes=>ALURes, Zero=>zero);
 MemoryUnit_inst: MemoryUnit port map(clk=>clk, MemWrite=>MemWrite, ALURes=>ALURes, rd2=>rd2, MemData=>MemData, ALURes_out=>ALURes);
 WriteBack_inst: WriteBack port map(MemtoReg=>MemtoReg, ALURes=>ALURes, MemData=>MemData, WriteData=>WriteData);
-SSD_inst: SevenSegmentDisplay port map(clk=>clk, sw=>sw, instr=>instr, pc_plus1=>PCPlus1, rd1=>rd1, rd2=>rd, ext_imm=>ext_imm, alu_res=>ALURes, mem_data=>MemData, write_data=>WriteData, cathodes=>cathodes, anodes=>anodes);
-leds<=ALUOp&"00000" when sw(0)='1' else RegDst&RegWrite&ALUSrc&PCSrc&MemRead&MemWrite&MemtoReg&'0';
+SSD_inst: SevenSegmentDisplay port map(clk=>clk, sw=>sw, instr=>instr, pc_plus1=>PCPlus1, rd1=>rd1, rd2=>rd2, ext_imm=>ext_imm, alu_res=>ALURes, mem_data=>MemData, write_data=>WriteData, cathodes=>cathodes, anodes=>anodes);
+--leds<='0' & ALUOp & "00000" when sw(0)='1' else RegDst&RegWrite&ALUSrc&PCSrc&MemRead&MemWrite&MemtoReg&'0';
+leds <= '0' & ALUOp & "00000" when sw(0) = '1' else RegDst & RegWrite & ALUSrc & PCSrc & MemRead & MemWrite & MemtoReg & '0';
 jumpTargetAddress<=ext_imm;
 end Behavioral;
