@@ -43,7 +43,10 @@ Port (
         rd2 : out STD_LOGIC_VECTOR(15 downto 0);
         ext_imm : out STD_LOGIC_VECTOR(15 downto 0);
         func : out STD_LOGIC_VECTOR(2 downto 0);
-        shamt : out STD_LOGIC
+        shamt : out STD_LOGIC;
+        rs : out STD_LOGIC_VECTOR(2 downto 0); -- Added for display later
+        rt : out STD_LOGIC_VECTOR(2 downto 0); -- Added for display later
+        rd : out STD_LOGIC_VECTOR(2 downto 0)  -- Added for display later
     );
 end InstructionDecode;
 
@@ -61,14 +64,18 @@ Port (
         rd2 : out STD_LOGIC_VECTOR(15 downto 0)
     );
 end component;
-signal rs_addr : STD_LOGIC_VECTOR(2 downto 0);
-signal rt_addr : STD_LOGIC_VECTOR(2 downto 0);
-signal rd_addr : STD_LOGIC_VECTOR(2 downto 0);
+signal rs_a,rt_a,rd_a:STD_LOGIC_VECTOR(2 downto 0);
 begin
-RS: rs_addr<=instr(12 downto 10);
-RT: rt_addr<=instr(9 downto 7);
-RD: rd_addr<=instr(6 downto 4);
-RegisterFile_inst: RegisterFile port map(clk=>clk, RegWrite=>RegWrite, RegDst=> RegDst, rs_addr=>rs_addr, rt_addr=>rt_addr, rd_addr=>rd_addr, write_data=>write_data, rd1=>rd1, rd2=>rd2);
+rs <= instr(12 downto 10);
+rt <= instr(9 downto 7);
+rd <= instr(6 downto 4);
+rs_a<= instr(12 downto 10);
+rt_a<=instr(9 downto 7);
+rd_a<=instr(6 downto 4);
+RegisterFile_inst: RegisterFile port map(clk=>clk, RegWrite=>RegWrite, RegDst=> RegDst, rs_addr=>rs_a, rt_addr=>rt_a, rd_addr=>rd_a, write_data=>write_data, rd1=>rd1, rd2=>rd2);
+rs<=rs_a;
+rt<=rt_a;
+rd<=rd_a;
 Extend: process(instr, ExtOp)
 begin
     if ExtOp='1' then

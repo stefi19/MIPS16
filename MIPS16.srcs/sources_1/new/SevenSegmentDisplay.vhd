@@ -45,6 +45,7 @@ Port (
         alu_res : in  STD_LOGIC_VECTOR(15 downto 0);
         mem_data : in  STD_LOGIC_VECTOR(15 downto 0);
         write_data : in  STD_LOGIC_VECTOR(15 downto 0);
+        instr_next : in STD_LOGIC_VECTOR(15 downto 0);
         cathodes : out STD_LOGIC_VECTOR(6 downto 0);
         anodes : out STD_LOGIC_VECTOR(3 downto 0)
     );
@@ -59,7 +60,7 @@ SSDMux: process(sw, instr, pc_plus1, rd1, rd2, ext_imm, alu_res, mem_data, write
 begin
 case sw(7 downto 5) is
     when "000" => ssd_data<=instr;
-    when "001" => ssd_data<=pc_plus1;
+    when "001" => ssd_data<=instr_next;
     when "010" => ssd_data<=rd1;
     when "011" => ssd_data<=rd2;
     when "100" => ssd_data<=ext_imm;

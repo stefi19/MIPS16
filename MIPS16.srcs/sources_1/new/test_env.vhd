@@ -45,6 +45,7 @@ end test_env;
 
 architecture Behavioral of test_env is
 -- Internal signals for datapath connections
+signal instr_next : STD_LOGIC_VECTOR(15 downto 0);
 signal instr, PCPlus1 : STD_LOGIC_VECTOR(15 downto 0);
 signal opcode, func : STD_LOGIC_VECTOR(2 downto 0);
 signal rs,rt,rd : STD_LOGIC_VECTOR(2 downto 0);
@@ -72,7 +73,8 @@ component InstructionFetch is
            jumpCtrl : in STD_LOGIC;
            PCSrcCtrl : in STD_LOGIC;
            instructionToBeExecuted : out STD_LOGIC_VECTOR (15 downto 0);
-           nextSequentialInstruction : out STD_LOGIC_VECTOR (15 downto 0));
+           nextSequentialInstruction : out STD_LOGIC_VECTOR (15 downto 0);
+           nextInstruction : out STD_LOGIC_VECTOR(15 downto 0));
 end component;
 component mpg is
     Port ( btn : in STD_LOGIC;
@@ -91,7 +93,10 @@ Port (
         rd2 : out STD_LOGIC_VECTOR(15 downto 0);
         ext_imm : out STD_LOGIC_VECTOR(15 downto 0);
         func : out STD_LOGIC_VECTOR(2 downto 0);
-        shamt : out STD_LOGIC
+        shamt : out STD_LOGIC;
+        rs : out STD_LOGIC_VECTOR(2 downto 0); -- Added for display
+        rt : out STD_LOGIC_VECTOR(2 downto 0); -- Added for display
+        rd : out STD_LOGIC_VECTOR(2 downto 0)  -- Added for display
     );
 end component;
 component ExecutionUnit is
@@ -161,6 +166,7 @@ Port (
         alu_res : in  STD_LOGIC_VECTOR(15 downto 0);
         mem_data : in  STD_LOGIC_VECTOR(15 downto 0);
         write_data : in  STD_LOGIC_VECTOR(15 downto 0);
+        instr_next : in STD_LOGIC_VECTOR(15 downto 0);
         cathodes : out STD_LOGIC_VECTOR(6 downto 0);
         anodes : out STD_LOGIC_VECTOR(3 downto 0)
     );
@@ -169,14 +175,15 @@ begin
 mpg_inst: mpg port map (clk=>clk, btn=>btn_enable,enable=>enable_MPG);
 enable_PC<=enable_MPG;
 enable_RegWrite<=enable_MPG and RegWrite;
-InstructionFetch_inst: InstructionFetch port map(clk=>clk, reset=>btn_reset, enable=>enable_PC, branchTargetAddress=>branchTargetAddress, jumpTargetAddress=>jumpTargetAddress,jumpCtrl=>jumpCtrl,PCSrcCtrl=>PCSrc, instructionToBeExecuted=>instr, nextSequentialInstruction=>PCPlus1);
-InstructionDecode_inst: InstructionDecode port map(clk=>clk, instr=>instr, write_data=>WriteData, RegWrite=>enable_RegWrite, RegDst=>RegDst, ExtOp=>'1',rd1=>rd1,rd2=>rd2,ext_imm=>ext_imm,func=>func,shamt=>shamt);
+InstructionFetch_inst: InstructionFetch port map(clk=>clk, reset=>btn_reset, enable=>enable_PC, branchTargetAddress=>branchTargetAddress, jumpTargetAddress=>jumpTargetAddress,jumpCtrl=>jumpCtrl,PCSrcCtrl=>PCSrc, instructionToBeExecuted=>instr, nextSequentialInstruction=>PCPlus1, nextInstruction => instr_next);
+InstructionDecode_inst: InstructionDecode port map(rs=>rs,rt=>rt,rd=>rd,clk=>clk, instr=>instr, write_data=>WriteData, RegWrite=>enable_RegWrite, RegDst=>RegDst, ExtOp=>'1',rd1=>rd1,rd2=>rd2,ext_imm=>ext_imm,func=>func,shamt=>shamt);
 MainControlUnit_inst: MainControlUnit port map(opcode=>opcode, RegDst=>RegDst, RegWrite=>RegWrite, ALUSrc=>ALUSrc, PCSrc=>PCSrc, MemRead=>MemRead, MemWrite=>MemWrite, MemtoReg=>MemtoReg,ALUOp=>ALUOp, jump=>jumpCtrl);
 ExecutionUnit_inst: ExecutionUnit port map(PCPlus1=>PCPlus1, rd1=>rd1, rd2=>rd2, ext_imm=>ext_imm, func=>func, shamt=>shamt, ALUSrc=>ALUSrc, ALUOp=>ALUOp, branch_target_address=>branchTargetAddress, ALURes=>ALURes, Zero=>zero);
 MemoryUnit_inst: MemoryUnit port map(clk=>clk, MemWrite=>MemWrite, ALURes=>ALURes, rd2=>rd2, MemData=>MemData, ALURes_out=>ALURes);
 WriteBack_inst: WriteBack port map(MemtoReg=>MemtoReg, ALURes=>ALURes, MemData=>MemData, WriteData=>WriteData);
-SSD_inst: SevenSegmentDisplay port map(clk=>clk, sw=>sw, instr=>instr, pc_plus1=>PCPlus1, rd1=>rd1, rd2=>rd2, ext_imm=>ext_imm, alu_res=>ALURes, mem_data=>MemData, write_data=>WriteData, cathodes=>cathodes, anodes=>anodes);
+SSD_inst: SevenSegmentDisplay port map(instr_next => instr_next,clk=>clk, sw=>sw, instr=>instr, pc_plus1=>PCPlus1, rd1=>rd1, rd2=>rd2, ext_imm=>ext_imm, alu_res=>ALURes, mem_data=>MemData, write_data=>WriteData, cathodes=>cathodes, anodes=>anodes);
 --leds<='0' & ALUOp & "00000" when sw(0)='1' else RegDst&RegWrite&ALUSrc&PCSrc&MemRead&MemWrite&MemtoReg&'0';
 leds <= '0' & ALUOp & "00000" when sw(0) = '1' else RegDst & RegWrite & ALUSrc & PCSrc & MemRead & MemWrite & MemtoReg & '0';
 jumpTargetAddress<=ext_imm;
+--leds <= rd1(7 downto 0);  -- vezi dacă rd1 primește ceva
 end Behavioral;

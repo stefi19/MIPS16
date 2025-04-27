@@ -48,7 +48,15 @@ end RegisterFile;
 architecture Behavioral of RegisterFile is
 --8 registers of 16 bits
 type reg_file_type is array (0 to 7) of STD_LOGIC_VECTOR(15 downto 0);
-signal reg_file : reg_file_type := (others => (others => '0'));
+--signal reg_file : reg_file_type := (others => (others => '0'));
+signal reg_file : reg_file_type := (
+    0 => x"0014",  -- $zero
+    1 => x"0020",  -- $t0 = 32
+    2 => x"000C",  -- $t1 = 12
+    5 => x"0000",
+    others => (others => '0')
+);
+
 begin
 Read1: rd1<=reg_file(to_integer(unsigned(rs_addr)));
 Read2: rd2<=reg_file(to_integer(unsigned(rt_addr)));

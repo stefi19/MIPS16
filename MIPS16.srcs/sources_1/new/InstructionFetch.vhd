@@ -40,7 +40,8 @@ entity InstructionFetch is
            jumpCtrl : in STD_LOGIC;
            PCSrcCtrl : in STD_LOGIC;
            instructionToBeExecuted : out STD_LOGIC_VECTOR (15 downto 0);
-           nextSequentialInstruction : out STD_LOGIC_VECTOR (15 downto 0));
+           nextSequentialInstruction : out STD_LOGIC_VECTOR (15 downto 0);
+           nextInstruction : out STD_LOGIC_VECTOR(15 downto 0));  -- added to be able to display PCPlus1);
 end InstructionFetch;
 
 architecture Behavioral of InstructionFetch is
@@ -50,60 +51,27 @@ signal PCPlus1: STD_LOGIC_VECTOR(15 downto 0):=(others=>'0');
 signal nextPC: STD_LOGIC_VECTOR(15 downto 0);
 type ROM_TYPE is array (0 to 255) of STD_LOGIC_VECTOR(15 downto 0);
 signal ROM : ROM_TYPE := (
-    -- GCD Part
-    B"010_101_001_0000000",  -- lw $t0, 0($s0)
-    B"010_101_010_0000100",  -- lw $t1, 4($s0)
-    B"000_001_010_011_0_001",-- sub $t2, $t0, $t1
-    B"100_011_000_0010110",  -- beq $t2, $zero, done (+22)
-    B"000_011_000_100_0_000",-- add $t3, $t2, $zero
+B"010_101_001_0000000",  -- lw  $t0, 0($s0)     ; 5480
 
-    -- Shiftăm $t3 de 15 ori pentru semn
-    B"000_100_100_100_1_011", -- srl $t3, $t3, 1
-    B"000_100_100_100_1_011",
-    B"000_100_100_100_1_011",
-    B"000_100_100_100_1_011",
-    B"000_100_100_100_1_011",
-    B"000_100_100_100_1_011",
-    B"000_100_100_100_1_011",
-    B"000_100_100_100_1_011",
-    B"000_100_100_100_1_011",
-    B"000_100_100_100_1_011",
-    B"000_100_100_100_1_011",
-    B"000_100_100_100_1_011",
-    B"000_100_100_100_1_011",
-    B"000_100_100_100_1_011",
-    B"000_100_100_100_1_011",
-    B"000_100_100_100_1_011",
+B"001_000_010_0000000",  -- addi $t1, $zero, 0  ; 2080
 
-    -- Comparare semn
-    B"101_100_100_0000001",  -- andi $t3, $t3, 1
-    B"100_100_000_0000010",  -- beq $t3, $zero, greater (+2)
-    B"000_010_000_010_0_001",-- sub $t1, $t1, $t0
-    B"111_1111111101000",   -- j gcd_loop (-24)
-    
-    -- greater:
-    B"000_001_001_001_0_001",-- sub $t0, $t0, $t1
-    B"111_1111111100110",   -- j gcd_loop (-26)
+-- loop:
+B"101_001_011_0001111",  -- andi $t2, $t0, 0xF  ; A18F (extrage cifra)
+B"101_011_100_0000001",  -- andi $t3, $t2, 1    ; A601 (verifică paritate)
+B"100_100_000_0000010",  -- beq  $t3, $zero, add; 9002 (dacă pară, sari la add)
 
-    -- done:
-    B"011_101_001_0001000",  -- sw $t0, 8($s0)
+-- skip_add:
+B"000_001_001_001_1_011",-- srl $t0, $t0, 4     ; 049B (shift dreapta cu 4)
+B"100_001_000_0000010",  -- beq  $t0, $zero, end; 8402 (dacă $t0==0, sari la end)
+B"111_11111_1111_1000",   -- j loop              ; FFF8 (sari înapoi la loop)
 
-    -- Reverse Part
-    B"101_001_100_0001111",  -- andi $t3, $t0, 0xF
-    B"000_011_011_011_1_010",-- sll $t2, $t2, 1
-    B"000_011_011_011_1_010",
-    B"000_011_011_011_1_010",
-    B"000_011_011_011_1_010",
-    B"000_011_100_011_0_101",-- or  $t2, $t2, $t3
-    B"000_001_001_001_1_011",-- srl $t0, $t0, 1
-    B"000_001_001_001_1_011",
-    B"000_001_001_001_1_011",
-    B"000_001_001_001_1_011",
-    B"100_001_000_0000001",  -- beq $t0, $zero, end_reverse (+1)
-    B"111_1111111110100",   -- j reverse_loop (-12)
-    
-    -- end_reverse:
-    B"011_101_011_0001100",   -- sw $t2, 12($s0)
+-- add:
+B"000_010_010_011_0_000",-- add $t1, $t1, $t2   ; 0898 (adaugă cifra la sumă)
+B"111_11111_1111_1010",   -- j skip_add          ; FFFA (sari la skip_add)
+
+-- end:
+B"011_101_010_0000100",   -- sw  $t1, 4($s0)     ; 7484 (scrie suma)
+
     others=>B"0000000000000000"
 );
 begin
@@ -134,5 +102,5 @@ else
 end if;
 end process; 
 instructionToBeExecuted<=ROM(to_integer(unsigned(PC(7 downto 0))));-- we only need 8 bits for 0 to 255
-
+nextInstruction <= ROM(to_integer(unsigned(PCPlus1(7 downto 0)))); -- instrucțiunea următoare pt afisat
 end Behavioral;
