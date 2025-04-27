@@ -49,7 +49,8 @@ Port (
         -- selects ALU result or memory data for writing back to register file
         MemtoReg : out STD_LOGIC;
         -- decides ALU operation type (00 - lw, 01 - sw  or 10 - R type)
-        ALUOp : out STD_LOGIC_VECTOR (1 downto 0)
+        ALUOp : out STD_LOGIC_VECTOR (1 downto 0);
+        jump: out STD_LOGIC
     );
 end MainControlUnit;
 
@@ -58,6 +59,7 @@ architecture Behavioral of MainControlUnit is
 begin
 SetFlags: process(opcode)
 begin
+    jump<='0';
     case opcode is
         when "000" => --R type
             RegDst<='1';
@@ -131,6 +133,7 @@ begin
             MemWrite<='0';
             MemtoReg<='0';
             ALUOp<="00";
+            jump<='1';
          when others =>
             RegDst<='0';
             RegWrite<='0';
