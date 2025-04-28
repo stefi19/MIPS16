@@ -1,60 +1,30 @@
 <?xml version="1.0"?>
 <ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="90432" HostCore="20" HostMemory="016779603968">
+    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="12824" HostCore="20" HostMemory="016779603968">
     </Process>
 </ProcessHandle>
 <?xml version="1.0"?>
 <ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="109928" HostCore="20" HostMemory="016779603968">
+    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="4984" HostCore="20" HostMemory="016779603968">
     </Process>
 </ProcessHandle>
 <?xml version="1.0"?>
 <ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="89624" HostCore="20" HostMemory="016779603968">
+    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="136564" HostCore="20" HostMemory="016779603968">
     </Process>
 </ProcessHandle>
 <?xml version="1.0"?>
 <ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="68304" HostCore="20" HostMemory="016779603968">
+    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="57288" HostCore="20" HostMemory="016779603968">
     </Process>
 </ProcessHandle>
 <?xml version="1.0"?>
 <ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="109740" HostCore="20" HostMemory="016779603968">
+    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="82420" HostCore="20" HostMemory="016779603968">
     </Process>
 </ProcessHandle>
 <?xml version="1.0"?>
 <ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="137872" HostCore="20" HostMemory="016779603968">
-    </Process>
-</ProcessHandle>
-<?xml version="1.0"?>
-<ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="108920" HostCore="20" HostMemory="016779603968">
-    </Process>
-</ProcessHandle>
-<?xml version="1.0"?>
-<ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="47228" HostCore="20" HostMemory="016779603968">
-    </Process>
-</ProcessHandle>
-<?xml version="1.0"?>
-<ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="100780" HostCore="20" HostMemory="016779603968">
-    </Process>
-</ProcessHandle>
-<?xml version="1.0"?>
-<ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="47136" HostCore="20" HostMemory="016779603968">
-    </Process>
-</ProcessHandle>
-<?xml version="1.0"?>
-<ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="70792" HostCore="20" HostMemory="016779603968">
-    </Process>
-</ProcessHandle>
-<?xml version="1.0"?>
-<ProcessHandle Version="1" Minor="0">
-    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="42472" HostCore="20" HostMemory="016779603968">
+    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="21024" HostCore="20" HostMemory="016779603968">
     </Process>
 </ProcessHandle>

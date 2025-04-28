@@ -1,0 +1,15 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../MIPS16.srcs/sources_1/new/ExecutionUnit.vhd" \
+"../../../../MIPS16.srcs/sources_1/new/InstructionDecode.vhd" \
+"../../../../MIPS16.srcs/sources_1/new/InstructionFetch.vhd" \
+"../../../../MIPS16.srcs/sources_1/new/MPG.vhd" \
+"../../../../MIPS16.srcs/sources_1/new/MainControlUnit.vhd" \
+"../../../../MIPS16.srcs/sources_1/new/MemoryUnit.vhd" \
+"../../../../MIPS16.srcs/sources_1/new/RegisterFile.vhd" \
+"../../../../MIPS16.srcs/sources_1/new/SevenSegmentDisplay.vhd" \
+"../../../../MIPS16.srcs/sources_1/new/WriteBack.vhd" \
+"../../../../MIPS16.srcs/sources_1/new/test_env.vhd" \
+
+# Do not sort compile order
+nosort

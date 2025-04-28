@@ -51,28 +51,20 @@ signal PCPlus1: STD_LOGIC_VECTOR(15 downto 0):=(others=>'0');
 signal nextPC: STD_LOGIC_VECTOR(15 downto 0);
 type ROM_TYPE is array (0 to 255) of STD_LOGIC_VECTOR(15 downto 0);
 signal ROM : ROM_TYPE := (
-B"010_101_001_0000000",  -- lw  $t0, 0($s0)     ; 5480
-
-B"001_000_010_0000000",  -- addi $t1, $zero, 0  ; 2080
-
+B"010_000_011_0000000",  -- lw   $3, 0($zero)        ; 4180
+B"001_000_010_0000000",  -- addi $2, $zero, 0        ; 2100
 -- loop:
-B"101_001_011_0001111",  -- andi $t2, $t0, 0xF  ; A18F (extrage cifra)
-B"101_011_100_0000001",  -- andi $t3, $t2, 1    ; A601 (verifică paritate)
-B"100_100_000_0000010",  -- beq  $t3, $zero, add; 9002 (dacă pară, sari la add)
-
--- skip_add:
-B"000_001_001_001_1_011",-- srl $t0, $t0, 4     ; 049B (shift dreapta cu 4)
-B"100_001_000_0000010",  -- beq  $t0, $zero, end; 8402 (dacă $t0==0, sari la end)
-B"111_11111_1111_1000",   -- j loop              ; FFF8 (sari înapoi la loop)
-
--- add:
-B"000_010_010_011_0_000",-- add $t1, $t1, $t2   ; 0898 (adaugă cifra la sumă)
-B"111_11111_1111_1010",   -- j skip_add          ; FFFA (sari la skip_add)
-
--- end:
-B"011_101_010_0000100",   -- sw  $t1, 4($s0)     ; 7484 (scrie suma)
-
-    others=>B"0000000000000000"
+B"101_011_100_0000001",  -- andi $4, $3, 1           ; AE01
+B"100_100_000_0000001",  -- beq  $4, $zero, skip_inc ; 9001
+B"001_010_010_0000001",  -- addi $2, $2, 1           ; 2901
+-- skip_inc:
+B"000_000_011_011_1_011",-- srl  $3, $3, 1           ; 01BB
+B"100_011_000_0000010",  -- beq  $3, $zero, exit     ; 8C02
+B"111_0000000000010",      -- j loop (address 0x02)    ; E002
+-- exit:
+B"011_000_010_0000010",  -- sw   $2, 2($zero)        ; 6102
+B"111_0000000001010",      -- j 0x00    ; E008
+others => B"0000000000000000"
 );
 begin
 PCget: process(clk, reset)
@@ -96,11 +88,12 @@ if jumpCtrl='1' then
 else
     if PCSrcCtrl='1' then
         nextPC<=branchTargetAddress;
+        --nextPC<=branchTargetAddress+PC;
     else
         nextPC<=PCplus1;
     end if;
 end if;
 end process; 
 instructionToBeExecuted<=ROM(to_integer(unsigned(PC(7 downto 0))));-- we only need 8 bits for 0 to 255
-nextInstruction <= ROM(to_integer(unsigned(PCPlus1(7 downto 0)))); -- instrucțiunea următoare pt afisat
+nextInstruction <= ROM(to_integer(unsigned(PCPlus1(7 downto 0)))); -- next instruction to display
 end Behavioral;

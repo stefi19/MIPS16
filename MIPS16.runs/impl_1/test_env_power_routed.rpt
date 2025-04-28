@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date             : Sun Apr 27 21:50:44 2025
+| Date             : Mon Apr 28 23:26:48 2025
 | Host             : Stefi running 64-bit major release  (build 9200)
 | Command          : report_power -file test_env_power_routed.rpt -pb test_env_power_summary_routed.pb -rpx test_env_power_routed.rpx
 | Design           : test_env
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+----------------------------------+
-| Total On-Chip Power (W)  | 21.973 (Junction temp exceeded!) |
+| Total On-Chip Power (W)  | 28.440 (Junction temp exceeded!) |
 | Design Power Budget (W)  | Unspecified*                     |
 | Power Budget Margin (W)  | NA                               |
-| Dynamic (W)              | 21.487                           |
+| Dynamic (W)              | 27.954                           |
 | Device Static (W)        | 0.486                            |
 | Effective TJA (C/W)      | 5.0                              |
 | Max Ambient (C)          | 0.0                              |
@@ -52,18 +52,18 @@ Table of Contents
 +--------------------------+-----------+----------+-----------+-----------------+
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
-| Slice Logic              |     1.989 |      345 |       --- |             --- |
-|   LUT as Logic           |     1.472 |      173 |     20800 |            0.83 |
-|   LUT as Distributed RAM |     0.374 |       36 |      9600 |            0.38 |
-|   CARRY4                 |     0.082 |       14 |      8150 |            0.17 |
-|   F7/F8 Muxes            |     0.045 |       38 |     32600 |            0.12 |
+| Slice Logic              |     2.937 |      473 |       --- |             --- |
+|   LUT as Logic           |     1.949 |      222 |     20800 |            1.07 |
+|   LUT as Distributed RAM |     0.769 |       88 |      9600 |            0.92 |
+|   F7/F8 Muxes            |     0.105 |       69 |     32600 |            0.21 |
+|   CARRY4                 |     0.098 |       16 |      8150 |            0.20 |
 |   Register               |     0.010 |       28 |     41600 |            0.07 |
 |   BUFG                   |     0.006 |        1 |        32 |            3.13 |
-|   Others                 |     0.000 |       11 |       --- |             --- |
-| Signals                  |     1.918 |      257 |       --- |             --- |
-| I/O                      |    17.579 |       26 |       106 |           24.53 |
+|   Others                 |     0.000 |        8 |       --- |             --- |
+| Signals                  |     3.565 |      325 |       --- |             --- |
+| I/O                      |    21.452 |       26 |       106 |           24.53 |
 | Static Power             |     0.486 |          |           |                 |
-| Total                    |    21.973 |          |           |                 |
+| Total                    |    28.440 |          |           |                 |
 +--------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -73,9 +73,9 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     4.272 |       3.931 |      0.341 |       NA    | Unspecified | NA         |
-| Vccaux    |       1.800 |     0.697 |       0.643 |      0.053 |       NA    | Unspecified | NA         |
-| Vcco33    |       3.300 |     4.970 |       4.969 |      0.001 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     6.867 |       6.526 |      0.341 |       NA    | Unspecified | NA         |
+| Vccaux    |       1.800 |     0.839 |       0.785 |      0.053 |       NA    | Unspecified | NA         |
+| Vcco33    |       3.300 |     6.066 |       6.065 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -140,22 +140,35 @@ Table of Contents
 +---------------------------------+-----------+
 | Name                            | Power (W) |
 +---------------------------------+-----------+
-| test_env                        |    21.487 |
-|   ExecutionUnit_inst            |     0.227 |
-|   InstructionDecode_inst        |     1.719 |
-|     RegisterFile_inst           |     1.719 |
-|       reg_file_reg_r1_0_7_0_5   |     0.189 |
-|       reg_file_reg_r1_0_7_12_15 |     0.118 |
-|       reg_file_reg_r1_0_7_6_11  |     0.194 |
-|       reg_file_reg_r2_0_7_0_5   |     0.133 |
-|       reg_file_reg_r2_0_7_12_15 |     0.083 |
-|       reg_file_reg_r2_0_7_6_11  |     0.130 |
-|   InstructionFetch_inst         |     1.619 |
-|   MemoryUnit_inst               |     0.135 |
-|     RAM_reg_0_255_2_2           |     0.041 |
-|     RAM_reg_0_255_3_3           |     0.043 |
-|     RAM_reg_0_255_4_4           |     0.051 |
-|   mpg_inst                      |     0.109 |
+| test_env                        |    27.954 |
+|   ExecutionUnit_inst            |     0.261 |
+|   InstructionDecode_inst        |     2.383 |
+|     RegisterFile_inst           |     2.383 |
+|       reg_file_reg_r1_0_7_0_5   |     0.205 |
+|       reg_file_reg_r1_0_7_12_15 |     0.129 |
+|       reg_file_reg_r1_0_7_6_11  |     0.217 |
+|       reg_file_reg_r2_0_7_0_5   |     0.167 |
+|       reg_file_reg_r2_0_7_12_15 |     0.099 |
+|       reg_file_reg_r2_0_7_6_11  |     0.179 |
+|   InstructionFetch_inst         |     2.894 |
+|   MemoryUnit_inst               |     0.740 |
+|     RAM_reg_0_255_0_0           |     0.040 |
+|     RAM_reg_0_255_10_10         |     0.046 |
+|     RAM_reg_0_255_11_11         |     0.046 |
+|     RAM_reg_0_255_12_12         |     0.049 |
+|     RAM_reg_0_255_13_13         |     0.054 |
+|     RAM_reg_0_255_14_14         |     0.050 |
+|     RAM_reg_0_255_15_15         |     0.046 |
+|     RAM_reg_0_255_1_1           |     0.042 |
+|     RAM_reg_0_255_2_2           |     0.042 |
+|     RAM_reg_0_255_3_3           |     0.046 |
+|     RAM_reg_0_255_4_4           |     0.043 |
+|     RAM_reg_0_255_5_5           |     0.044 |
+|     RAM_reg_0_255_6_6           |     0.041 |
+|     RAM_reg_0_255_7_7           |     0.044 |
+|     RAM_reg_0_255_8_8           |     0.047 |
+|     RAM_reg_0_255_9_9           |     0.046 |
+|   mpg_inst                      |     0.130 |
 +---------------------------------+-----------+
 
 
