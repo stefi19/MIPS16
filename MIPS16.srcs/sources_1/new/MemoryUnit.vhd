@@ -45,7 +45,6 @@ end MemoryUnit;
 architecture Behavioral of MemoryUnit is
 type ram_type is array (0 to 255) of STD_LOGIC_VECTOR(15 downto 0);
 --signal RAM : ram_type := (others => (others => '0'));  -- Initialize all to 0
---type RAM_TYPE is array (0 to 255) of STD_LOGIC_VECTOR(15 downto 0);
 signal RAM : RAM_TYPE := (
     0 => x"0001",
     1 => x"0002",

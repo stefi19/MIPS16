@@ -52,8 +52,8 @@ type reg_file_type is array (0 to 7) of STD_LOGIC_VECTOR(15 downto 0);
 signal reg_file : reg_file_type := (
 x"0000",
     x"0001",  -- $zero
-    x"0002",  -- $t0 = 32
-    x"0004",  -- $t1 = 12
+    x"0002", 
+    x"0004",  
     x"0008",
     others => (others => '0')
 );

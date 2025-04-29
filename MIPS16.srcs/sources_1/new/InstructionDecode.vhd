@@ -44,9 +44,9 @@ Port (
         ext_imm : out STD_LOGIC_VECTOR(15 downto 0);
         func : out STD_LOGIC_VECTOR(2 downto 0);
         shamt : out STD_LOGIC;
-        rs : out STD_LOGIC_VECTOR(2 downto 0); -- Added for display later
-        rt : out STD_LOGIC_VECTOR(2 downto 0); -- Added for display later
-        rd : out STD_LOGIC_VECTOR(2 downto 0)  -- Added for display later
+        rs : out STD_LOGIC_VECTOR(2 downto 0); -- Added to ensure visibility in top module
+        rt : out STD_LOGIC_VECTOR(2 downto 0); -- Added to ensure visibility in top module
+        rd : out STD_LOGIC_VECTOR(2 downto 0)  -- Added to ensure visibility in top module
     );
 end InstructionDecode;
 
@@ -66,9 +66,9 @@ Port (
 end component;
 signal rs_a,rt_a,rd_a:STD_LOGIC_VECTOR(2 downto 0);
 begin
-rs <= instr(12 downto 10);
-rt <= instr(9 downto 7);
-rd <= instr(6 downto 4);
+--rs <= instr(12 downto 10);
+--rt <= instr(9 downto 7);
+--rd <= instr(6 downto 4);
 rs_a<= instr(12 downto 10);
 rt_a<=instr(9 downto 7);
 rd_a<=instr(6 downto 4);

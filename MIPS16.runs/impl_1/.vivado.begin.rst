@@ -58,3 +58,18 @@
     <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="39664" HostCore="20" HostMemory="016779603968">
     </Process>
 </ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="63168" HostCore="20" HostMemory="016779603968">
+    </Process>
+</ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="66520" HostCore="20" HostMemory="016779603968">
+    </Process>
+</ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado.bat" Owner="Stefi" Host="STEFI" Pid="101676" HostCore="20" HostMemory="016779603968">
+    </Process>
+</ProcessHandle>

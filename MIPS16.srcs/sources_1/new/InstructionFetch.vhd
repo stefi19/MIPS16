@@ -50,8 +50,9 @@ signal PCPlus1: STD_LOGIC_VECTOR(15 downto 0):=(others=>'0');
 --signal outMUX: STD_LOGIC_VECTOR(15 downto 0);
 signal nextPC: STD_LOGIC_VECTOR(15 downto 0);
 type ROM_TYPE is array (0 to 255) of STD_LOGIC_VECTOR(15 downto 0);
-signal ROM : ROM_TYPE := (
-  B"001_000_001_0000000",   --X"2080"	  --addi $1,$0,0
+  --                addr   
+signal  rom : ROM_Type := (
+        B"001_000_001_0000000",   --X"2080"	  --addi $1,$0,0
 		B"001_000_010_0000001",	  --X"2101"	  --addi $2,$0,1	
 		B"001_000_011_0000000",	  --X"2180"	  --addi $3,$0,0	
 		B"001_000_100_0000001",	  --X"2201"	  --addi $4,$0,1
@@ -63,7 +64,9 @@ signal ROM : ROM_TYPE := (
 		B"000_000_010_001_0_000", --X"0110"   --add $1,$0,$2
 		B"000_000_101_010_0_000", --X"02A0"   --add $2,$0,$5
 		B"111_000_000_0001000",   --X"E008"   --j 8
-		others => x"0000");
+		others => x"0000"
+  );
+
 begin
 PCget: process(clk, reset)
 begin
