@@ -50,10 +50,11 @@ architecture Behavioral of RegisterFile is
 type reg_file_type is array (0 to 7) of STD_LOGIC_VECTOR(15 downto 0);
 --signal reg_file : reg_file_type := (others => (others => '0'));
 signal reg_file : reg_file_type := (
-    0 => x"0014",  -- $zero
-    1 => x"0020",  -- $t0 = 32
-    2 => x"000C",  -- $t1 = 12
-    5 => x"0000",
+x"0000",
+    x"0001",  -- $zero
+    x"0002",  -- $t0 = 32
+    x"0004",  -- $t1 = 12
+    x"0008",
     others => (others => '0')
 );
 
@@ -61,13 +62,19 @@ begin
 Read1: rd1<=reg_file(to_integer(unsigned(rs_addr)));
 Read2: rd2<=reg_file(to_integer(unsigned(rt_addr)));
 WriteOperation: process(clk)
+variable write_index : integer;
 begin
     if rising_edge (clk) then
         if RegWrite='1' then
             if RegDst='1' then
-                reg_file(to_integer(unsigned(rd_addr)))<=write_data;
+                write_index := to_integer(unsigned(rd_addr));
+                --reg_file(to_integer(unsigned(rd_addr)))<=write_data;
             else
-                reg_file(to_integer(unsigned(rt_addr)))<=write_data;
+                write_index := to_integer(unsigned(rt_addr));
+                --reg_file(to_integer(unsigned(rt_addr)))<=write_data;
+            end if;
+            if write_index /=0 then
+                reg_file(write_index)<=write_data;
             end if;
         end if;
     end if;

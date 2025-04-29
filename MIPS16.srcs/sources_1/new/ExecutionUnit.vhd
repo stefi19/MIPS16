@@ -67,7 +67,7 @@ begin
                     when "101" => ALUControl <= "001";  -- OR
                     when "110" => ALUControl <= "011";  -- XOR
                     when "111" => ALUControl <= "111";  -- NOR
-                    when others => ALUControl <= "000";  -- Default AND
+                    when others => ALUControl <= "010";  -- Default AND
             end case;
      end case;
 end process;

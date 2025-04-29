@@ -50,7 +50,9 @@ Port (
         MemtoReg : out STD_LOGIC;
         -- decides ALU operation type (00 - lw, 01 - sw  or 10 - R type)
         ALUOp : out STD_LOGIC_VECTOR (1 downto 0);
-        jump: out STD_LOGIC
+        jump: out STD_LOGIC;
+        -- 1 = sign-extend, 0 = zero-extend
+        ExtOp: out STD_LOGIC
     );
 end MainControlUnit;
 
@@ -60,6 +62,7 @@ begin
 SetFlags: process(opcode)
 begin
     jump<='0';
+    ExtOp<='1';
     case opcode is
         when "000" => --R type
             RegDst<='1';
@@ -78,7 +81,7 @@ begin
             MemRead<='0';
             MemWrite<='0';
             MemtoReg<='0';
-            ALUOp<="10";
+            ALUOp<="00";
         when "010" => --LW
             RegDst<='0';
             RegWrite<='1';
@@ -115,6 +118,7 @@ begin
             MemWrite<='0';
             MemtoReg<='0';
             ALUOp<="10";
+            ExtOp<='0';
         when "110" => --ORI
             RegDst<='0';
             RegWrite<='1';
@@ -124,6 +128,7 @@ begin
             MemWrite<='0';
             MemtoReg<='0';
             ALUOp<="10";
+            ExtOp<='0';
         when "111" => --JUMP
             RegDst<='0';
             RegWrite<='0';

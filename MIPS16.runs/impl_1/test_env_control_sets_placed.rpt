@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Mon Apr 28 23:26:22 2025
+| Date         : Tue Apr 29 09:25:34 2025
 | Host         : Stefi running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file test_env_control_sets_placed.rpt
 | Design       : test_env
@@ -62,7 +62,7 @@ Table of Contents
 | No           | No                    | Yes                    |               0 |            0 |
 | No           | Yes                   | No                     |               0 |            0 |
 | Yes          | No                    | No                     |               1 |            1 |
-| Yes          | No                    | Yes                    |               8 |            3 |
+| Yes          | No                    | Yes                    |               8 |            4 |
 | Yes          | Yes                   | No                     |               0 |            0 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
@@ -75,9 +75,9 @@ Table of Contents
 +----------------+-----------------------------------+------------------+------------------+----------------+--------------+
 |  mpg_inst/eqOp |                                   |                  |                1 |              1 |         1.00 |
 |  clk_IBUF_BUFG | mpg_inst/en1                      |                  |                1 |              1 |         1.00 |
-|  clk_IBUF_BUFG | mpg_inst/enable_MPG               | btn_reset_IBUF   |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | mpg_inst/enable_MPG               | btn_reset_IBUF   |                4 |              8 |         2.00 |
 |  clk_IBUF_BUFG |                                   |                  |                5 |             18 |         3.60 |
-|  clk_IBUF_BUFG | InstructionFetch_inst/RegWrite_en |                  |                6 |             48 |         8.00 |
+|  clk_IBUF_BUFG | InstructionFetch_inst/p_0_in0_out |                  |                6 |             48 |         8.00 |
 |  clk_IBUF_BUFG | InstructionFetch_inst/MemWrite_en |                  |               16 |             64 |         4.00 |
 +----------------+-----------------------------------+------------------+------------------+----------------+--------------+
 

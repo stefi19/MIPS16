@@ -42,7 +42,7 @@ architecture Behavioral of test_env is
   ----------------------------------------------------------------------------
   -- Control signals
   ----------------------------------------------------------------------------
-  signal RegDst, RegWrite, ALUSrc : STD_LOGIC;
+  signal RegDst, RegWrite, ALUSrc, ExtOp : STD_LOGIC;
   signal MemRead, MemWrite         : STD_LOGIC;
   signal MemtoReg                  : STD_LOGIC;
   signal ALUOp                     : STD_LOGIC_VECTOR(1 downto 0);
@@ -57,7 +57,7 @@ architecture Behavioral of test_env is
   -- Write-back
   ----------------------------------------------------------------------------
   signal WriteData                 : STD_LOGIC_VECTOR(15 downto 0);
-
+  
   ----------------------------------------------------------------------------
   -- Gated control-writes for RF and RAM
   ----------------------------------------------------------------------------
@@ -109,7 +109,7 @@ begin
       write_data => WriteData,
       RegWrite   => RegWrite_en,
       RegDst     => RegDst,
-      ExtOp      => ALUSrc,
+      ExtOp      => ExtOp,
       rd1        => rd1,
       rd2        => rd2,
       ext_imm    => ext_imm,
@@ -134,8 +134,17 @@ begin
       MemWrite  => MemWrite,
       MemtoReg  => MemtoReg,
       ALUOp     => ALUOp,
-      jump      => jumpCtrl
+      jump      => jumpCtrl,
+      ExtOp => ExtOp
     );
+  
+  ----------------------------------------------------------------------------
+  -- compute 16-bit jump target:
+  --   top 3 bits come from PCPlus1(15 downto 13),
+  --   low 13 bits from instr(12 downto 0)
+  ----------------------------------------------------------------------------
+  jumpTargetAddress <= PCPlus1(15 downto 13) & instr(12 downto 0);
+
 
   ----------------------------------------------------------------------------
   -- 6) Execute Unit
@@ -203,6 +212,22 @@ begin
   -- 10) Debug LEDs = [ALUOp,RegDst,RegWrite,ALUSrc,PCSrc,MemWrite,MemtoReg,Zero]
   ----------------------------------------------------------------------------
 --  jumpTargetAddress <= "000" & instr(12 downto 0);
-  dbg_vector <= ALUOp & RegDst & RegWrite & ALUSrc & PCSrc & MemWrite & MemtoReg;
-  leds <= dbg_vector when sw(0)='0' else "000000"&ALUOp;
+    ----------------------------------------------------------------------------
+  -- 10) Debug LEDs = [RegDst,RegWrite,ALUSrc,PCSrc,MemRead,MemWrite,MemtoReg,jump]
+  --    or else show ALUOp in the bottom two bits
+  ----------------------------------------------------------------------------
+  dbg_vector <= 
+       RegDst   &    -- LED 7
+       RegWrite &    -- LED 6
+       ALUSrc   &    -- LED 5
+       PCSrc    &    -- LED 4
+       MemRead  &    -- LED 3
+       MemWrite &    -- LED 2
+       MemtoReg &    -- LED 1
+       jumpCtrl;     -- LED 0
+
+  leds <= dbg_vector 
+         when sw(0) = '0' else
+         ("000000" & ALUOp);  -- pad ALUOp into LEDs(1 downto 0), upper LEDs = '0'
+
 end architecture;
